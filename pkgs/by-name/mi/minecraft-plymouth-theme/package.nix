@@ -7,12 +7,12 @@
 
 stdenv.mkDerivation {
   name = "minecraft-loading-plymouth";
-  version = "0.0.1";
+  version = "0.0.2";
 
   src = fetchFromGitHub {
     repo = "minecraft-loading-plymouth";
     owner = "Aceroph";
-    rev = "bfb66190f23247de17f45a0898c1335c3c21e171";
+    rev = "3f4054d7246341a95084d9dbbd3b77ecbea36d6d";
     hash = "sha256-aF4Ro5z4G6LS40ENwFDH8CgV7ldfhzqekuSph/DMQoo=";
   };
 
@@ -24,7 +24,7 @@ stdenv.mkDerivation {
 
     mkdir -p $out/share/plymouth/themes/minecraft-loading
     cp -r $src/{*.plymouth,images} $out/share/plymouth/themes/minecraft-loading/
-    substituteInPlace $out/share/plymouth/themes/minecraft-loading/*.plymouth --replace '@IMAGES@' "$out/share/plymouth/themes/minecraft-loading/images"
+    replaceVars $out/share/plymouth/themes/minecraft-loading/*.plymouth --replace '@SRC@' "$out/share/plymouth/themes/minecraft-loading"
 
     runHook postInstall
   '';
