@@ -12,6 +12,7 @@ stdenv.mkDerivation {
   src = fetchFromGitHub {
     repo = "minecraft-loading-plymouth";
     owner = "Aceroph";
+    rev = "bfb66190f23247de17f45a0898c1335c3c21e171";
     hash = "sha256-aF4Ro5z4G6LS40ENwFDH8CgV7ldfhzqekuSph/DMQoo=";
   };
 
