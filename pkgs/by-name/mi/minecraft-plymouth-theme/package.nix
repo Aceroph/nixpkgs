@@ -24,7 +24,7 @@ stdenv.mkDerivation {
 
     mkdir -p $out/share/plymouth/themes/minecraft-loading
     cp -r $src/{*.plymouth,images} $out/share/plymouth/themes/minecraft-loading/
-    replaceVars $out/share/plymouth/themes/minecraft-loading/*.plymouth --replace '@SRC@' "$out/share/plymouth/themes/minecraft-loading"
+    substituteInPlace $out/share/plymouth/themes/minecraft-loading/*.plymouth --replace '@SRC@' "$out/share/plymouth/themes/minecraft-loading"
 
     runHook postInstall
   '';
