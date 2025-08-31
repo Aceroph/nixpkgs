@@ -379,7 +379,7 @@ with pkgs;
     catch2 = catch2_3;
   };
 
-  eiffel-studio = callPackage ../by-name/ef/eiffel-studio-bin/package.nix { };
+  eiffel-studio = callPackage ../by-name/ei/eiffel-studio-bin/package.nix { };
 
   eff = callPackage ../by-name/ef/eff/package.nix { ocamlPackages = ocaml-ng.ocamlPackages_5_2; };
 
