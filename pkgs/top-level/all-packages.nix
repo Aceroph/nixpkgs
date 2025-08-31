@@ -379,6 +379,8 @@ with pkgs;
     catch2 = catch2_3;
   };
 
+  eiffel-studio = callPackage ../by-name/ei/eiffel-studio-bin/package.nix { };
+
   eff = callPackage ../by-name/ef/eff/package.nix { ocamlPackages = ocaml-ng.ocamlPackages_5_2; };
 
   enochecker-test = with python3Packages; callPackage ../development/tools/enochecker-test { };
