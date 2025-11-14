@@ -448,6 +448,10 @@ with pkgs;
     autoPatchcilHook
     ;
 
+  eiffelPackages = recurseIntoAttrs (
+    callPackage ../development/eiffel-packages { inherit eiffel-studio-bin; }
+  );
+
   buildDotnetPackage = callPackage ../build-support/dotnet/build-dotnet-package { };
   fetchNuGet = callPackage ../build-support/dotnet/fetchnuget { };
   dupeguru = callPackage ../applications/misc/dupeguru {
