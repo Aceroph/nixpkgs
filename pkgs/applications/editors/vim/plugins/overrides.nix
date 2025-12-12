@@ -71,6 +71,8 @@
   pandoc,
   # nvim-tinygit
   gitMinimal,
+  # opencode-nvim,
+  opencode,
   # Preview-nvim dependencies
   md-tui,
   # sidekick-nvim dependencies
@@ -122,6 +124,8 @@
   # search-and-replace.nvim dependencies
   fd,
   sad,
+  # tv.nvim dependency
+  television,
 }:
 self: super:
 let
@@ -143,6 +147,7 @@ let
 in
 
 assertNoAdditions {
+  # keep-sorted start case=no block=yes newline_separated=yes
   advanced-git-search-nvim = super.advanced-git-search-nvim.overrideAttrs {
     checkInputs = with self; [
       fzf-lua
@@ -1848,6 +1853,16 @@ assertNoAdditions {
     dependencies = [ self.plenary-nvim ];
   };
 
+  markdoc-nvim = super.markdoc-nvim.overrideAttrs {
+    dependencies = with self; [
+      (nvim-treesitter.withPlugins (p: [
+        p.markdown
+        p.markdown_inline
+        p.html
+      ]))
+    ];
+  };
+
   markdown-preview-nvim =
     let
       # We only need its dependencies `node-modules`.
@@ -2324,6 +2339,12 @@ assertNoAdditions {
     ];
   };
 
+  neovim-tips = super.neovim-tips.overrideAttrs {
+    dependencies = [
+      self.nui-nvim
+    ];
+  };
+
   nlsp-settings-nvim = super.nlsp-settings-nvim.overrideAttrs {
     dependencies = [ self.nvim-lspconfig ];
   };
@@ -2540,6 +2561,13 @@ assertNoAdditions {
       "nvls.errors.lilypond-book"
       "nvls.tex"
       "nvls.texinfo"
+    ];
+  };
+
+  nvim-k8s-crd = super.nvim-k8s-crd.overrideAttrs {
+    dependencies = with self; [
+      plenary-nvim
+      nvim-lspconfig
     ];
   };
 
@@ -2808,6 +2836,10 @@ assertNoAdditions {
     dependencies = [ self.oil-nvim ];
   };
 
+  oil-lsp-diagnostics-nvim = super.oil-lsp-diagnostics-nvim.overrideAttrs {
+    dependencies = [ self.oil-nvim ];
+  };
+
   ollama-nvim = super.ollama-nvim.overrideAttrs {
     dependencies = [ self.plenary-nvim ];
   };
@@ -2838,6 +2870,13 @@ assertNoAdditions {
       broken = true;
     };
   });
+
+  opencode-nvim = super.opencode-nvim.overrideAttrs {
+    runtimeDeps = [
+      curl
+      opencode
+    ];
+  };
 
   # The plugin depends on either skim-vim or fzf-vim, but we don't want to force the user so we
   # avoid choosing one of them and leave it to the user
@@ -3594,6 +3633,10 @@ assertNoAdditions {
     dependencies = [ self.nvim-treesitter ];
   };
 
+  tv-nvim = super.tv-nvim.overrideAttrs {
+    runtimeDeps = [ television ];
+  };
+
   typescript-nvim = super.typescript-nvim.overrideAttrs {
     checkInputs = [
       # Optional null-ls integration
@@ -4218,11 +4261,5 @@ assertNoAdditions {
         --replace-fail "'zoxide_executable', 'zoxide'" "'zoxide_executable', '${zoxide}/bin/zoxide'"
     '';
   };
-
-  nvim-k8s-crd = super.nvim-k8s-crd.overrideAttrs {
-    dependencies = with self; [
-      plenary-nvim
-      nvim-lspconfig
-    ];
-  };
+  # keep-sorted end
 }

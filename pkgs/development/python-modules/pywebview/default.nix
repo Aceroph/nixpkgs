@@ -9,18 +9,24 @@
   qtpy,
   six,
   typing-extensions,
+  stdenv,
+  pyobjc-core,
+  pyobjc-framework-Cocoa,
+  pyobjc-framework-Quartz,
+  pyobjc-framework-Security,
+  pyobjc-framework-WebKit,
 }:
 
 buildPythonPackage rec {
   pname = "pywebview";
-  version = "6.0";
+  version = "6.1";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "r0x0r";
     repo = "pywebview";
     tag = version;
-    hash = "sha256-EuDm3Ixw1z5xwpl4U15Xwg5mE3dXslTvv0N0XyjxrAg=";
+    hash = "sha256-vqdJRxZbHNu2Sq318RnJjzDjYRRCSiO72WM+flKwW7g=";
   };
 
   build-system = [ setuptools-scm ];
@@ -32,6 +38,13 @@ buildPythonPackage rec {
     qtpy
     six
     typing-extensions
+  ]
+  ++ lib.optionals stdenv.hostPlatform.isDarwin [
+    pyobjc-core
+    pyobjc-framework-Cocoa
+    pyobjc-framework-Quartz
+    pyobjc-framework-Security
+    pyobjc-framework-WebKit
   ];
 
   pythonImportsCheck = [ "webview" ];

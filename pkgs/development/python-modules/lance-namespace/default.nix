@@ -30,14 +30,14 @@
 
 buildPythonPackage rec {
   pname = "lance-namespace";
-  version = "0.0.20";
+  version = "0.2.1";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "lancedb";
     repo = "lance-namespace";
     tag = "v${version}";
-    hash = "sha256-dacYNbWXlV6+/klb9/rgbG/2YJ5BAw5xeSZbPvDgRb4=";
+    hash = "sha256-1SCsKjFd//1y28eR5MC2/M7cIMTRa083iDyuvWxLekw=";
   };
 
   sourceRoot = "${src.name}/python/lance_namespace";
@@ -74,7 +74,7 @@ buildPythonPackage rec {
     pylance
     pytestCheckHook
   ]
-  ++ lib.flatten (lib.attrValues optional-dependencies);
+  ++ lib.concatAttrValues optional-dependencies;
 
   # Tests require pylance, which is a circular dependency
   doCheck = false;

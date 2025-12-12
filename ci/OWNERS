@@ -139,7 +139,7 @@ nixos/modules/installer/tools/nix-fallback-paths.nix  @NixOS/nix-team @raitobeza
 /nixos/modules/system/boot/loader/systemd-boot      @JulienMalka
 
 # Limine
-/nixos/modules/system/boot/loader/limine        @lzcunt @phip1611 @programmerlexi @johnrtitor
+/nixos/modules/system/boot/loader/limine        @lzcunt @programmerlexi @johnrtitor
 /nixos/tests/limine                             @johnrtitor
 
 # Images and installer media
@@ -382,12 +382,12 @@ pkgs/development/python-modules/buildcatrust/ @ajs124 @lukegb @mweinelt
 /pkgs/applications/editors/vscode/extensions
 
 # PHP interpreter, packages, extensions, tests and documentation
-/doc/languages-frameworks/php.section.md          @aanderse @globin @ma27 @talyz
-/nixos/tests/php                                  @aanderse @globin @ma27 @talyz
-/pkgs/build-support/php/build-pecl.nix            @aanderse @globin @ma27 @talyz
-/pkgs/development/interpreters/php       @jtojnar @aanderse @globin @ma27 @talyz
-/pkgs/development/php-packages                    @aanderse @globin @ma27 @talyz
-/pkgs/top-level/php-packages.nix         @jtojnar @aanderse @globin @ma27 @talyz
+/doc/languages-frameworks/php.section.md          @aanderse @ma27 @talyz
+/nixos/tests/php                                  @aanderse @ma27 @talyz
+/pkgs/build-support/php/build-pecl.nix            @aanderse @ma27 @talyz
+/pkgs/development/interpreters/php       @jtojnar @aanderse @ma27 @talyz
+/pkgs/development/php-packages                    @aanderse @ma27 @talyz
+/pkgs/top-level/php-packages.nix         @jtojnar @aanderse @ma27 @talyz
 
 # Docker tools
 /pkgs/build-support/docker                       @roberth @jhol
@@ -507,8 +507,8 @@ pkgs/servers/authelia/ @06kellyjac @dit7ya @nicomem
 pkgs/by-name/oc/octodns/ @anthonyroussel
 
 # Teleport
-/pkgs/build-support/teleport  @arianvp @justinas @sigma @tomberek @freezeboy @techknowlogick @JuliusFreudenberger
-pkgs/by-name/te/teleport*     @arianvp @justinas @sigma @tomberek @freezeboy @techknowlogick @JuliusFreudenberger
+/pkgs/build-support/teleport  @arianvp @justinas @sigma @tomberek @techknowlogick @JuliusFreudenberger
+pkgs/by-name/te/teleport*     @arianvp @justinas @sigma @tomberek @techknowlogick @JuliusFreudenberger
 
 # Warp-terminal
 pkgs/by-name/wa/warp-terminal/  @emilytrau @imadnyc @FlameFlag @johnrtitor

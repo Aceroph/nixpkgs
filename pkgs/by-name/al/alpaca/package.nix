@@ -20,6 +20,8 @@
   libportal,
   webkitgtk_6_0,
   pipewire,
+  glib-networking,
+  bash,
 }:
 
 let
@@ -31,15 +33,20 @@ let
 in
 pythonPackages.buildPythonApplication rec {
   pname = "alpaca";
-  version = "8.2.2";
+  version = "8.5.0";
   pyproject = false; # Built with meson
 
   src = fetchFromGitHub {
     owner = "Jeffser";
     repo = "Alpaca";
     tag = version;
-    hash = "sha256-i1qNLV+oKkZlS/v8jfJJc67lJBuW6j2Uz93vb1StD6g=";
+    hash = "sha256-1/Tg1L7/6ODhSdHYiEky5E33cNC5ZTCzLNd369yTz7o=";
   };
+
+  postPatch = ''
+    substituteInPlace src/widgets/activities/terminal.py \
+      --replace-fail "['bash', '-c', ';\n'.join(self.prepare_script())]," "['${bash}/bin/bash', '-c', ';\n'.join(self.prepare_script())],"
+  '';
 
   nativeBuildInputs = [
     appstream
@@ -60,6 +67,7 @@ pythonPackages.buildPythonApplication rec {
     libportal
     webkitgtk_6_0
     pipewire # pipewiresrc
+    glib-networking
   ];
 
   dependencies =
@@ -79,7 +87,7 @@ pythonPackages.buildPythonApplication rec {
       gst-python
       opencv4
     ]
-    ++ lib.flatten (builtins.attrValues optional-dependencies);
+    ++ lib.concatAttrValues optional-dependencies;
 
   optional-dependencies = with pythonPackages; {
     speech-to-text = [

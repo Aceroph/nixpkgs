@@ -2,23 +2,29 @@
   lib,
   stdenvNoCC,
   bun,
+  fetchgit,
   fetchFromGitHub,
   nix-update-script,
   writableTmpDirAsHomeHook,
 }:
-stdenvNoCC.mkDerivation (finalAttrs: {
+let
   pname = "models-dev";
-  version = "0-unstable-2025-11-11";
+  version = "0-unstable-2025-12-05";
   src = fetchFromGitHub {
     owner = "sst";
     repo = "models.dev";
-    rev = "2273498a2d97d73b19a60e611899073329499d23";
-    hash = "sha256-L+zmAq1efNv77jogWRdUqt6MmFV3zO5mUiUwnozOqZw=";
+    rev = "a9963d76a85c6949cc6e653da7c8b78c88afd47e";
+    hash = "sha256-62HKGnJHprrVMFuZ4qpmAkfWNZI6ZqGx9VDPnSnugZQ=";
+    postFetch = lib.optionalString stdenvNoCC.hostPlatform.isLinux ''
+      # NOTE: Normalize case-sensitive directory names that cause issues on case-insensitive filesystems
+      cp -r "$out/providers/poe/models/openai"/* "$out/providers/poe/models/openAi/"
+      rm -rf "$out/providers/poe/models/openai"
+    '';
   };
 
   node_modules = stdenvNoCC.mkDerivation {
-    pname = "models-dev-node_modules";
-    inherit (finalAttrs) version src;
+    pname = "${pname}-node_modules";
+    inherit version src;
 
     impureEnvVars = lib.fetchers.proxyImpureEnvVars ++ [
       "GIT_PROXY_COMMAND"
@@ -51,13 +57,8 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     installPhase = ''
       runHook preInstall
 
-      # Copy node_modules directories
-      while IFS= read -r dir; do
-        rel="''${dir#./}"
-        dest="$out/$rel"
-        mkdir -p "$(dirname "$dest")"
-        cp -R "$dir" "$dest"
-      done < <(find . -type d -name node_modules -prune)
+      mkdir -p $out
+      find . -type d -name node_modules -exec cp -R --parents {} $out \;
 
       runHook postInstall
     '';
@@ -69,13 +70,21 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     outputHashAlgo = "sha256";
     outputHashMode = "recursive";
   };
+in
+stdenvNoCC.mkDerivation (finalAttrs: {
+  inherit
+    pname
+    version
+    src
+    node_modules
+    ;
 
   nativeBuildInputs = [ bun ];
 
   configurePhase = ''
     runHook preConfigure
 
-    cp -R ${finalAttrs.node_modules}/. .
+    cp -R ${node_modules}/. .
 
     runHook postConfigure
   '';

@@ -137,7 +137,6 @@ with lib.maintainers;
 
   c = {
     members = [
-      matthewbauer
       mic92
     ];
     scope = "Maintain C libraries and tooling.";
@@ -343,6 +342,10 @@ with lib.maintainers;
     enableFeatureFreezePing = true;
   };
 
+  feel-co = {
+    github = "feel-co";
+  };
+
   flutter = {
     enableFeatureFreezePing = false;
     github = "flutter";
@@ -397,7 +400,6 @@ with lib.maintainers;
 
   gitlab = {
     members = [
-      globin
       krav
       leona
       talyz
@@ -631,7 +633,6 @@ with lib.maintainers;
   mate = {
     members = [
       bobby285271
-      j03
       romildo
     ];
     scope = "Maintain Mate desktop environment and related packages.";
@@ -642,7 +643,6 @@ with lib.maintainers;
   matrix = {
     members = [
       ma27
-      fadenb
       mguentner
       dandellion
       nickcao

@@ -668,7 +668,7 @@ with haskellLib;
       # the path to the (host) tools at build time from PATH,
       # so we instruct it to check at runtime.
       enableCabalFlag "allow-relative-paths" (
-        super.nix-paths {
+        super.nix-paths.override {
           nix-build = null;
           nix-env = null;
           nix-hash = null;
@@ -3904,21 +3904,25 @@ with haskellLib;
       src = src + "/cachix-api";
     } super.cachix-api;
 
-    cachix = lib.pipe super.cachix [
-      (overrideSrc {
-        inherit version;
-        src = src + "/cachix";
-      })
-      (addBuildDepends [
-        self.pqueue
-      ])
-      (
-        drv:
-        drv.override {
-          nix = self.hercules-ci-cnix-store.nixPackage;
-          hnix-store-core = self.hnix-store-core_0_8_0_0;
-        }
-      )
-    ];
+    cachix = lib.pipe super.cachix (
+      [
+        (overrideSrc {
+          inherit version;
+          src = src + "/cachix";
+        })
+        (addBuildDepends [
+          self.pqueue
+        ])
+        (
+          drv:
+          drv.override {
+            nix = self.hercules-ci-cnix-store.nixPackage;
+            hnix-store-core = self.hnix-store-core_0_8_0_0;
+          }
+        )
+      ]
+      # https://github.com/NixOS/nixpkgs/issues/461651
+      ++ lib.optional pkgs.stdenv.isDarwin dontCheck
+    );
   }
 )
